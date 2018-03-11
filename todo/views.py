@@ -16,18 +16,18 @@ def get_todo_page(request):
         print("It's a get")
     form = TodoItemForm()
     items = TodoItem.objects.all()
-    return render(request, 'todo/todo_items.html', {'items': items , 'form': form})
+    return render(request, 'todo/index.html', {'items': items , 'form': form})
 
 def delete_todo_item(request, id):
     item = get_object_or_404(TodoItem, pk=id)
     item.delete()
-    return redirect("/")
+    return redirect("todo_index")
     
 def toggle_todo_item(request, id):
     item = get_object_or_404(TodoItem, pk=id)
     item.done = not item.done
     item.save()
-    return redirect("/")
+    return redirect("todo_index")
         
 def edit_todo_item(request, id):
     item = get_object_or_404(TodoItem, pk=id)
@@ -36,7 +36,7 @@ def edit_todo_item(request, id):
         form = EditTodoItemForm(request.POST, instance=item)
         if form.is_valid():
             form.save()
-            return redirect("/")
+            return redirect("todo_index")
     else:
         print("It's a get")
     
